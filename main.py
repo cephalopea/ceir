@@ -1,3 +1,4 @@
-import pandas as pd 
-import numpy as np 
+import pandas
+import numpy
 
+pandas.read_csv("geert-hofstede.csv")
