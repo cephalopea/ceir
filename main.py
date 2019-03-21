@@ -37,8 +37,13 @@ def getDistance(ctr1, ctr2):
     return differenceData
 
 #modify the base utils according to cultural modifiers (based on Logan's data)
-def attributeModify(ctr1, ctr2, util):
+def modAttributes(ctr1, ctr2, matrix1, matrix2):
     ctrData1 = getCountryData(ctr1)
     ctrData2 = getCountryData(ctr2)
     ctrDifference = getDistance(ctr1, ctr2)
-    
+    war_bias1 = getDataPoint(ctrData1, 'mas') + (-.3)*getDataPoint(ctrData1, 'ivr') + (-.05)*getDataPoint(ctrData1, 'idv') + (0.1)*getDataPoint(ctrData1, 'pdi')
+    war_bias2 = getDataPoint(ctrData2, 'mas') + (-.3)*getDataPoint(ctrData2, 'ivr') + (-.05)*getDataPoint(ctrData2, 'idv') + (0.1)*getDataPoint(ctrData2, 'pdi')
+    matrix1[0][0]+=war_bias1
+    matrix1[0][1]+=war_bias1
+    matrix2[0][0]+=war_bias2
+    matrix2[1][0]+=war_bias2
