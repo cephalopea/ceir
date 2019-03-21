@@ -8,6 +8,14 @@ Created on Wed Mar 20 10:49:38 2019
 
 import pandas as pd
 
+def formatMatrix(m, n):
+    result="[("
+    result+=str(m[0][0])+","+str(n[0][0])+"), ("
+    result+=str(m[0][1])+","+str(n[0][1])+")]\n"
+    result+="[("+str(m[1][0])+","+str(n[1][0])+"), ("
+    result+=str(m[1][1])+","+str(n[1][1])+")]"
+    return result
+
 ntlData = pd.read_csv("geert-hofstede.csv")
 ntlData = ntlData.replace('#NULL!', 'NaN')
                           
@@ -28,11 +36,27 @@ ntlData = ntlData.replace('#NULL!', 'NaN')
 #here lets pick some values
 w=100
 v=50
+country1 = "India"
+country2 = "Pakistan"
+
+data1 = ntlData.loc[ntlData['country']==country1]
+data2 = ntlData.loc[ntlData['country']==country2]
 
 #and load the initial game matrix
-game_matrix = [[(-w,-w), (v,0)], [(0,v), (0,0)]]
+matrix1 = [[-w, v], [0, 0]]
+matrix2 = [[-w, 0], [v, 0]]
 
-#modify game mx according to values
+#modify game mx according to gh values
+war_bias1 = data1.iloc[0]['mas'] + (-.3)*data1.iloc[0]['ivr'] + (-.05)*data1.iloc[0]['idv'] + (0.1)*data1.iloc[0]['pdi']
+war_bias2 = data2.iloc[0]['mas'] + (-.3)*data2.iloc[0]['ivr'] + (-.05)*data2.iloc[0]['idv'] + (0.1)*data2.iloc[0]['pdi']
+
+matrix1[0][0]+=war_bias1
+matrix1[0][1]+=war_bias1
+
+matrix2[0][0]+=war_bias2
+matrix2[1][0]+=war_bias2
+
+print(formatMatrix(matrix1, matrix2))
 
 #play game with complete info--print results
 
