@@ -1,3 +1,7 @@
+"""
+@author: Caiti
+"""
+
 import pandas as pd
 import numpy as np
 
@@ -23,15 +27,11 @@ def createOutcome(pdi, idv, mas, uai, ltowvs, ivr):
 #finds the average distance between a country's attributes and an outcome's attributes
 def getDistance(ctr, outcome):
     ctrData = getCountryData(ctr) #dataframe of just the input country
-    ctrDistance = {}
     attributes = ['pdi', 'idv', 'mas', 'uai', 'ltowvs', 'ivr']
     dist = 0
     for attribute in attributes:
-        ctrDistance[attribute] = abs(getDataPoint(ctrData, attribute) - outcome[attribute])
-    for attribute in attributes:
-        dist += ctrDistance[attribute]
+        dist += abs(getDataPoint(ctrData, attribute) - outcome[attribute])
     dist /= 6
-    print(dist)
     return dist
 
 getDistance('IND', sampleOutcome)
