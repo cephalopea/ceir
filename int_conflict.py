@@ -46,7 +46,7 @@ data2 = ntlData.loc[ntlData['country']==country2]
 matrix1 = [[-w, v], [0, 0]]
 matrix2 = [[-w, 0], [v, 0]]
 
-#modify game mx according to gh values
+#modify game mx according to gh values (untested coeficients here)
 war_bias1 = data1.iloc[0]['mas'] + (-.3)*data1.iloc[0]['ivr'] + (-.05)*data1.iloc[0]['idv'] + (0.1)*data1.iloc[0]['pdi']
 war_bias2 = data2.iloc[0]['mas'] + (-.3)*data2.iloc[0]['ivr'] + (-.05)*data2.iloc[0]['idv'] + (0.1)*data2.iloc[0]['pdi']
 
@@ -59,7 +59,11 @@ matrix2[1][0]+=war_bias2
 print(formatMatrix(matrix1, matrix2))
 
 #play game with complete info--print results
+#check for dom strat
+#if none, compute %chance of opponent playing various responses (using uai)
+#compute best play
 
 #play game w limited info--print results
+#same as above but w less info
 
 #FOR LATER: play game in multiple rounds
