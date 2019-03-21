@@ -12,8 +12,13 @@ sampleOutcome = {'pdi': 0, 'idv': 10, 'mas': 20, 'uai': 30, 'ltowvs': 40, 'ivr':
 def getCountryData(ctr):
     return ntlData.loc[ntlData['ctr'] == ctr]
 
+#returns only data from a single cell as one comparable value
 def getDataPoint(row, attribute):
     return row.iloc[0][attribute]
+
+#creates an outcome formatted as a dictionary
+def createOutcome(pdi, idv, mas, uai, ltowvs, ivr):
+    return {'pdi': pdi, 'idv': idv 'mas': mas 'uai': uai, 'ltowvs': ltowvs, 'ivr': ivr}
 
 #finds the average distance between a country's attributes and an outcome's attributes
 def getDistance(ctr, outcome):
