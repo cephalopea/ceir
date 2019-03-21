@@ -1,0 +1,41 @@
+---
+title: "Test"
+output: html_document
+---
+
+```{r}
+military_data<-read.csv(file="./Desktop/military_spending.csv")
+military_data<-military_data %>% select(Country.Name, X2017)
+military_data<-military_data %>% rename(country=Country.Name)
+```
+
+```{r}
+hoffstede_data<-read.csv(file="./Desktop/Logan/Smith/Senior\ Year/Game\ Theory/Project\ 1/geert-hofstede.csv")
+```
+
+```{r}
+hoffstede_data<-merge(hoffstede_data, military_data, by="country")
+save(hoffstede_data, file="./Desktop/hofstede_data.csv")
+```
+
+```{r}
+#VERY weak neg cor (maybe enough to ignore)
+ggplot(hoffstede_data, aes(x=idv, y=X2017))+
+  geom_point()+
+  geom_smooth(method=lm)
+```
+
+```{r}
+#medium neg cor
+ggplot(hoffstede_data, aes(x=ivr, y=X2017))+
+  geom_point()+
+  geom_smooth(method=lm)
+```
+
+```{r}
+#VERY weakly pos cor
+ggplot(hoffstede_data, aes(x=pdi, y=X2017))+
+  geom_point()+
+  geom_smooth(method=lm)
+```
+
