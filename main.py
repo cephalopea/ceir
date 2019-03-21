@@ -20,18 +20,25 @@ def getCountryData(ctr):
 def getDataPoint(row, attribute):
     return row.iloc[0][attribute]
 
-#creates an outcome formatted as a dictionary
-def createOutcome(pdi, idv, mas, uai, ltowvs, ivr):
-    return {'pdi': pdi, 'idv': idv 'mas': mas 'uai': uai, 'ltowvs': ltowvs, 'ivr': ivr}
-
-#finds the average distance between a country's attributes and an outcome's attributes
-def getDistance(ctr, outcome):
-    ctrData = getCountryData(ctr) #dataframe of just the input country
+#finds the average distance between two countries' attributes
+def getDistance(ctr1, ctr2):
+    ctrData1 = getCountryData(ctr1) #dataframe of just the input country
+    ctrData2 = getCountryData(ctr2) 
     attributes = ['pdi', 'idv', 'mas', 'uai', 'ltowvs', 'ivr']
-    dist = 0
+    differenceData = {}
+    avgDist = 0
     for attribute in attributes:
-        dist += abs(getDataPoint(ctrData, attribute) - outcome[attribute])
-    dist /= 6
-    return dist
+        distance = abs(getDataPoint(ctrData1, attribute) - getDataPoint(ctrData2, attribute))
+        avgDist += distance
+        differenceData[attribute] = distance
+    avgDist /= 6
+    differenceData['avgDist'] = avgDist
+    print(differenceData)
+    return differenceData
 
-getDistance('IND', sampleOutcome)
+#modify the base utils according to cultural modifiers (based on Logan's data)
+def attributeModify(ctr1, ctr2, util):
+    ctrData1 = getCountryData(ctr1)
+    ctrData2 = getCountryData(ctr2)
+    ctrDifference = getDistance(ctr1, ctr2)
+    
