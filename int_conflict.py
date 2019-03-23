@@ -16,7 +16,7 @@ def formatMatrix(m, n):
     result+=str(m[1][1])+","+str(n[1][1])+")]"
     return result
 
-ntlData = pd.read_csv("geert-hofstede.csv")
+ntlData = pd.read_csv("./datasets/geert-hofstede.csv")
 ntlData = ntlData.replace('#NULL!', 'NaN')
                           
 #MAS strong correlation to prefering war
