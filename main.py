@@ -54,14 +54,14 @@ def modAttributes(ctr1, ctr2, matrix1, matrix2):
 
 def formatMatrix(m, n):
     result="[("
-    result+='{:^15}'.format(str(round(m[0][0], 1))+","+str(round(n[0][0], 1)))
+    result+='{:^7}'.format(str(round(m[0][0], 1)))+","+'{:^7}'.format(str(round(n[0][0], 1)))
     result+="), ("
-    result+='{:^15}'.format(str(round(m[0][1],1))+","+str(round(n[0][1],1)))
+    result+='{:^7}'.format(str(round(m[0][1],1)))+","+'{:^7}'.format(str(round(n[0][1],1)))
     result+=")]\n"
     result+="[("
-    result+='{:^15}'.format(str(round(m[1][0], 1))+","+str(round(n[1][0],1)))
+    result+='{:^7}'.format(str(round(m[1][0], 1)))+","+'{:^7}'.format(str(round(n[1][0],1)))
     result+="), ("
-    result+='{:^15}'.format(str(round(m[1][1],1))+","+str(round(n[1][1],1)))
+    result+='{:^7}'.format(str(round(m[1][1],1)))+","+'{:^7}'.format(str(round(n[1][1],1)))
     result+=")]"
     return result
 
