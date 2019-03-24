@@ -37,7 +37,7 @@ ntlData = ntlData.replace('#NULL!', 'NaN')
 w=100
 v=50
 country1 = "India"
-country2 = "Pakistan"
+country2 = "Jamaica"
 
 data1 = ntlData.loc[ntlData['country']==country1]
 data2 = ntlData.loc[ntlData['country']==country2]

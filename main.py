@@ -10,6 +10,10 @@ ntlData.fillna(60, inplace=True) #center val as placeholder for missing vals
 
 sampleOutcome = {'pdi': 0, 'idv': 10, 'mas': 20, 'uai': 30, 'ltowvs': 40, 'ivr': 50}
 
+WAR="war"
+PEACE="peace"
+BLANK="None"
+
 #next two functions are unnecessary, but convenient for clarity
 
 #creates a dataframe of just the relevant country's data
@@ -50,48 +54,66 @@ def modAttributes(ctr1, ctr2, matrix1, matrix2):
 
 def formatMatrix(m, n):
     result="[("
-    result+=str(m[0][0])+","+str(n[0][0])+"), ("
-    result+=str(m[0][1])+","+str(n[0][1])+")]\n"
-    result+="[("+str(m[1][0])+","+str(n[1][0])+"), ("
-    result+=str(m[1][1])+","+str(n[1][1])+")]"
+    result+='{:^15}'.format(str(round(m[0][0], 1))+","+str(round(n[0][0], 1)))
+    result+="), ("
+    result+='{:^15}'.format(str(round(m[0][1],1))+","+str(round(n[0][1],1)))
+    result+=")]\n"
+    result+="[("
+    result+='{:^15}'.format(str(round(m[1][0], 1))+","+str(round(n[1][0],1)))
+    result+="), ("
+    result+='{:^15}'.format(str(round(m[1][1],1))+","+str(round(n[1][1],1)))
+    result+=")]"
     return result
 
+#compute and print each country's strategy, assuming they don't know the other's payoffs
 def play(ctr1, ctr2, m1, m2):
-    #compute % chance of oppoents plays (if no dom strat)
-    #compute best play for each player
-
+    
     ctrData1 = getCountryData(ctr1)
     ctrData2 = getCountryData(ctr2) 
 
     #calc country 1 strategy
     if(m1[0][0]>=m1[1][0] and m1[0][1]>=m1[1][1]):
-        c1Dom = "war"
+        c1Dom = WAR
     elif(m1[0][0]<=m1[1][0] and m1[0][1]<=m1[1][1]):
-        c1Dom = "peace"
+        c1Dom = PEACE
     else:
-        c1Dom = "None"
+        c1Dom = BLANK
 
     #calc country 2 strategy
     if(m2[0][0]>=m2[0][1] and m2[1][0]>=m2[1][1]):
-        c2Dom = "war"
+        c2Dom = WAR
     elif(m2[0][0]<=m2[0][1] and m2[1][0]<=m2[1][1]):
-        c2Dom = "peace"
+        c2Dom = PEACE
     else:
-        c2Dom = "None"
+        c2Dom = BLANK
 
-    if c1Dom=="None":
+    if c1Dom==BLANK:
         #value for c1's evaluation of how likely c2 is to go to war
         c2WarOdds = 0.5 + (0.005)*getDataPoint(ctrData1, 'uai')
-
+        
         #weighted value for each outcome
+        warPayoff1 = m1[0][0]*c2WarOdds + m1[0][1]*(1-c2WarOdds)
+        peacePayoff1 = m1[1][0]*c2WarOdds + m1[1][1]*(1-c2WarOdds)
 
-    if c2Dom=="None":
+        if(peacePayoff1>warPayoff1):
+            c1Dom=PEACE
+        else:
+            c1Dom=WAR
+
+    if c2Dom==BLANK:
         c1WarOdds = 0.5 + (0.005)*getDataPoint(ctrData2, 'uai')
+        
+        warPayoff2 = m2[0][0]*c1WarOdds + m2[1][0]*(1-c1WarOdds)
+        peacePayoff2 = m2[0][1]*c1WarOdds + m2[1][1]*(1-c1WarOdds)
+
+        if(peacePayoff2>warPayoff2):
+            c2Dom=PEACE
+        else:
+            c2Dom=WAR
+
     
     print(ctr1+" strategy: "+c1Dom)
     print(ctr2+" strategy: "+c2Dom)
-
-    
 
 
 def main():
@@ -100,13 +122,14 @@ def main():
     #[(0,v), (0,0)]
     w=100
     v=50
-    country1 = "India"
+    country1 = "Jamaica"
     country2 = "Pakistan"
 
     #load the initial game matrix
     matrix1 = [[-w, v], [0, 0]]
     matrix2 = [[-w, 0], [v, 0]]
 
+    #modify matrix according to countrys gf values
     modAttributes(country1, country2, matrix1, matrix2)
     print(formatMatrix(matrix1, matrix2))
 
