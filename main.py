@@ -66,7 +66,7 @@ def formatMatrix(m, n):
     return result
 
 #compute and print each country's strategy, assuming they don't know the other's payoffs
-def play(ctr1, ctr2, m1, m2):
+def play(ctr1, ctr2, m1, m2, c1LastPlay, c2LastPlay):
     
     ctrData1 = getCountryData(ctr1)
     ctrData2 = getCountryData(ctr2) 
@@ -90,6 +90,11 @@ def play(ctr1, ctr2, m1, m2):
     if c1Dom==BLANK:
         #value for c1's evaluation of how likely c2 is to go to war
         c2WarOdds = 0.5 + (0.005)*getDataPoint(ctrData1, 'uai')
+
+        if c2LastPlay==WAR:
+            c2WarOdds+=0.3
+        elif c2LastPlay==PEACE:
+            c2WarOdds-=0.1
         
         #weighted value for each outcome
         warPayoff1 = m1[0][0]*c2WarOdds + m1[0][1]*(1-c2WarOdds)
@@ -102,6 +107,11 @@ def play(ctr1, ctr2, m1, m2):
 
     if c2Dom==BLANK:
         c1WarOdds = 0.5 + (0.005)*getDataPoint(ctrData2, 'uai')
+
+        if c1LastPlay==WAR:
+            c1WarOdds+=0.3
+        elif c1LastPlay==PEACE:
+            c1WarOdds-=0.1
         
         warPayoff2 = m2[0][0]*c1WarOdds + m2[1][0]*(1-c1WarOdds)
         peacePayoff2 = m2[0][1]*c1WarOdds + m2[1][1]*(1-c1WarOdds)
@@ -115,6 +125,8 @@ def play(ctr1, ctr2, m1, m2):
     print(ctr1+" strategy: "+c1Dom)
     print(ctr2+" strategy: "+c2Dom)
 
+    return c1Dom, c2Dom
+
 
 def main():
     #default matrix w-- cost of going to war, v: value of land at stake
@@ -122,7 +134,7 @@ def main():
     #[(0,v), (0,0)]
     w=100
     v=50
-    country1 = "Jamaica"
+    country1 = "India"
     country2 = "Pakistan"
 
     #load the initial game matrix
@@ -133,7 +145,14 @@ def main():
     modAttributes(country1, country2, matrix1, matrix2)
     print(formatMatrix(matrix1, matrix2))
 
-    play(country1, country2, matrix1, matrix2)
+    c1Strat=BLANK
+    c2Strat=BLANK
+
+    for i in range(10):
+        print("\nround " + str(i)+":")
+        strategies=play(country1, country2, matrix1, matrix2, c1Strat, c2Strat)
+        c1Strat=strategies[0]
+        c2Strat=strategies[1]
 
 
 main()
