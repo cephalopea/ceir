@@ -95,10 +95,17 @@ def play(ctr1, ctr2, m1, m2, c1LastPlay, c2LastPlay):
             c2WarOdds+=0.3
         elif c2LastPlay==PEACE:
             c2WarOdds-=0.1
+
+        #account for bias towards last play
+        bonus=(70-getDataPoint(ctrData1, 'ltowvs'))*0.3
+        if c1LastPlay==PEACE:
+            bonus=bonus*-1
+        elif c1LastPlay==BLANK:
+            bonus=0
         
         #weighted value for each outcome
-        warPayoff1 = m1[0][0]*c2WarOdds + m1[0][1]*(1-c2WarOdds)
-        peacePayoff1 = m1[1][0]*c2WarOdds + m1[1][1]*(1-c2WarOdds)
+        warPayoff1 = m1[0][0]*c2WarOdds + m1[0][1]*(1-c2WarOdds)+bonus
+        peacePayoff1 = m1[1][0]*c2WarOdds + m1[1][1]*(1-c2WarOdds)-bonus
 
         if(peacePayoff1>warPayoff1):
             c1Dom=PEACE
@@ -112,9 +119,15 @@ def play(ctr1, ctr2, m1, m2, c1LastPlay, c2LastPlay):
             c1WarOdds+=0.3
         elif c1LastPlay==PEACE:
             c1WarOdds-=0.1
+
+        bonus=(70-getDataPoint(ctrData2, 'ltowvs'))*0.3
+        if c2LastPlay==PEACE:
+            bonus=bonus*-1
+        elif c2LastPlay==BLANK:
+            bonus=0
         
-        warPayoff2 = m2[0][0]*c1WarOdds + m2[1][0]*(1-c1WarOdds)
-        peacePayoff2 = m2[0][1]*c1WarOdds + m2[1][1]*(1-c1WarOdds)
+        warPayoff2 = m2[0][0]*c1WarOdds + m2[1][0]*(1-c1WarOdds)+bonus
+        peacePayoff2 = m2[0][1]*c1WarOdds + m2[1][1]*(1-c1WarOdds)-bonus
 
         if(peacePayoff2>warPayoff2):
             c2Dom=PEACE
