@@ -1,5 +1,5 @@
 """
-@author: Caiti
+@author: Caiti, Logan, Ian, and Michael
 """
 
 import pandas as pd
@@ -13,8 +13,6 @@ sampleOutcome = {'pdi': 0, 'idv': 10, 'mas': 20, 'uai': 30, 'ltowvs': 40, 'ivr':
 WAR="war"
 PEACE="peace"
 BLANK="None"
-
-#next two functions are unnecessary, but convenient for clarity
 
 #creates a dataframe of just the relevant country's data
 def getCountryData(ctr):
@@ -169,4 +167,3 @@ def main():
 
 
 main()
-
